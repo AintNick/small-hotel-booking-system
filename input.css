@@ -1,0 +1,49 @@
+@import url("https://fonts.googleapis.com/css2?family=Irish+Grover&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background-color: #291f1e;
+  --header-color: #a3333d;
+  --accent-color: #f64740;
+  --accent-font: "Irish Grover", cursive;
+  --regular-font: "Poppins", sans-serif;
+  --secondary-font: "Montserrat", sans-serif;
+  --card-color: #e3e3e3;
+  --card-text-color: #2b2b2b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--background-color);
+  color: #f1f1f1;
+  font-family: var(--regular-font);
+}
+
+input {
+  color: #2b2b2b;
+}
+
+@layer components {
+  .container {
+    @apply mx-auto my-5 px-2;
+  }
+
+  .animate-fade {
+    animation: fade 0.3s ease-out;
+  }
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

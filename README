@@ -1,0 +1,5 @@
+## How to run tailwind css
+
+```
+npx tailwindcss -i input.css -o output.css --watch
+```

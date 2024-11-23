@@ -1,0 +1,17 @@
+# Ignore files
+*.swp
+._*
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+com.apple.timemachine.donotpresent
+# Ignore node and bower folders
+node_modules/
+bower_components/
+# Ignore composer files
+composer.lock
+vendor/

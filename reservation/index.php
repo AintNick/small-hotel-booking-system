@@ -12,12 +12,35 @@ $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
 $room;
 
 if ($user_data['room'] != NULL) {
+    echo "<script>console.log('log test here');</script>";
+
     $stmt = $admin->runQuery('SELECT * FROM rooms WHERE id = :id');
     $stmt->execute(array(":id" => $user_data["room"]));
     $room = $stmt->fetch(PDO::FETCH_ASSOC);
+
 }
 
+if (isset($_POST['btn-checkout'])) {
+
+    $stmt = $admin->runQuery('INSERT INTO sales (userId, roomId, price, date) VALUES (:userId, :roomId, :price, :date)');
+    $stmt->execute(array(":userId" => $user_data["id"], ":roomId" => $room["id"], ":price" => $room["price"], ":date" => date("Y-m-d")));
+    $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $stmt = $admin->runQuery('UPDATE user SET room = :room WHERE id = :id');
+    $stmt->execute(array(":room" => NULL, ":id" => $user_data["id"]));
+
+
+    $stmt = $admin->runQuery('INSERT INTO hotel_stats (id, totalSales) VALUES (1, :price) ON DUPLICATE KEY UPDATE totalSales = totalSales + :price');
+    $stmt->execute(array(":price" => $room["price"]));
+
+    $stmt = $admin->runQuery("UPDATE rooms SET reserved = :reserved WHERE id = :id");
+    $stmt->execute(array(":reserved" => false, ":id" => $room["id"]));
+    $room = $stmt->fetch(PDO::FETCH_ASSOC);
+    header('Location: ../rooms');
+    exit();
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -84,7 +107,7 @@ if ($user_data['room'] != NULL) {
                             premium finishes, spacious accommodations, and a sparkling ambiance that makes every stay
                             unforgettable.</p>
                         <div class="mt-4 space-x-4">
-                            <span class="px-6 rounded-full py-1 bg-green-600 text-white">5,000</span>
+                            <span class="px-6 rounded-full py-1 bg-green-600 text-white"><?php echo $room['price'] ?></span>
                             <span class="px-6 rounded-full py-1 bg-yellow-600 text-white">6pm - 6am</span>
                         </div>
                         <span class="mt-4 flex gap-1"><img src="../src/images/star.svg" alt="star"><img
@@ -95,8 +118,9 @@ if ($user_data['room'] != NULL) {
 
                     <div class="mt-auto">
                         <p>You are Entrusted to check-out when your time is up</p>
-                        <button class="mt-4 px-6 py-2 bg-[#ef4a59] text-white rounded hover:animate-pulse">Check
-                            out</button>
+                        <form action="" method="POST"><button name="btn-checkout"
+                                class="mt-4 px-6 py-2 bg-[#ef4a59] text-white rounded hover:animate-pulse">Check
+                                out</button></form>
                     </div>
                 </div>
             </div>

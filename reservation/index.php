@@ -186,7 +186,7 @@ if (isset($_POST['btn-checkout'])) {
         }
 
         function setting() {
-            window.location.href = "../setting";
+            window.location.href = "../setting/add-admin/index.php";
         }
 
         function signOut() {

@@ -20,9 +20,7 @@ $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment</title>
     <link rel="stylesheet" href="../src/css/dashboard.css">
-    <link rel="stylesheet" href="../src/css/main.css">
-    <link rel="stylesheet" href="../output.css">
-    <link rel="shortcut icon" href="../src/images/favicon.ico" type="image/x-icon">
+    
 </head>
 
 <body>
@@ -85,7 +83,7 @@ $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
         }
 
         function setting() {
-            window.location.href = "../setting";
+            window.location.href = "setting/add-admin.php";
         }
 
         function signOut() {

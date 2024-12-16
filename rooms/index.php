@@ -121,7 +121,7 @@ $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         function setting() {
-            window.location.href = "../setting";
+            window.location.href = "../setting/add-admin/index.php";
         }
 
         function signOut() {

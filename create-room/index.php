@@ -128,7 +128,7 @@ if (isset($_POST['btn-create-room'])) {
         }
 
         function setting() {
-            window.location.href = "../setting";
+            window.location.href = "../setting/add-admin.php";
         }
 
         function signOut() {

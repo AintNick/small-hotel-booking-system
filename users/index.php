@@ -85,7 +85,7 @@ $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
         }
 
         function setting() {
-            window.location.href = "../setting";
+            window.location.href = "../setting/add-admin/index.php";
         }
 
         function signOut() {

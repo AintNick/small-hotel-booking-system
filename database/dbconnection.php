@@ -1,17 +1,21 @@
 <?php
 
-class Database {
+class Database
+{
     private $host;
     private $db_name;
     private $username;
     private $password;
     public $conn;
 
-    public function __construct() {
-        if($_SERVER["SERVER_NAME"] === "localhost" || $_SERVER[
-            "SERVER_ADDR" === "127.0.0.1" || $_SERVER[
-            "SERVER_ADDR"] === "192.168.1.72" 
-        ]) {
+    public function __construct()
+    {
+        if (
+            $_SERVER["SERVER_NAME"] === "localhost" || $_SERVER[
+                "SERVER_ADDR" === "127.0.0.1" || $_SERVER[
+                    "SERVER_ADDR"] === "192.168.1.72"
+            ]
+        ) {
             // scan what domain is 
             $this->host = "localhost";
             $this->db_name = "activity1itelec2";
@@ -25,7 +29,8 @@ class Database {
         }
     }
 
-    public function dbConnection() {
+    public function dbConnection()
+    {
         $this->conn = null;
         try {
             $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
@@ -37,4 +42,4 @@ class Database {
     }
 }
 
-?> 
+?>

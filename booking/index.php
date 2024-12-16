@@ -152,7 +152,7 @@ if (isset($_POST['btn-submit'])) {
         }
 
         function setting() {
-            window.location.href = "../setting";
+            window.location.href = "../setting/add-admin.php";
         }
 
         function signOut() {

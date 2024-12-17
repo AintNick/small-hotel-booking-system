@@ -66,7 +66,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn-update-user'])) {
                 <?php if ($user_data['isAdmin'] == true): ?>
                     <p onclick="addRoom()" class="cursor-pointer text-nowrap text-center">Add Room</p>
                 <?php endif; ?>
-                <p onclick="editUser()" class="cursor-pointer text-center text-nowrap">User Profile</p>
                 <p onclick="profile()" class="cursor-pointer text-center text-nowrap">Profile</p>
                 <p onclick="setting()" class="cursor-pointer text-center text-nowrap">Setting</p>
                 <p onclick="signOut()" class="cursor-pointer mt-2 text-red-500 text-center text-nowrap">Sign out</p>
@@ -143,10 +142,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn-update-user'])) {
 
         function manageUsers() {
             window.location.href = "../users";
-        }
-
-        function editUser() {
-            window.location.href = "../edit-user";
         }
 
         function setting() {

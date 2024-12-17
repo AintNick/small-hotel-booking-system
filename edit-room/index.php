@@ -1,19 +1,47 @@
 <?php
-
-require_once '../dashboard/admin/authentication/admin-class.php';
+require_once __DIR__ . '/../database/dbconnection.php';
+require_once __DIR__ . '/../dashboard/admin/authentication/admin-class.php';
 
 $admin = new ADMIN();
 $admin->isUserLoggedIn("../");
 
+// Fetch user data
 $stmt = $admin->runQuery("SELECT * FROM user WHERE id = :id");
 $stmt->execute(array(":id" => $_SESSION['adminSession']));
 $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$stmt = $admin->runQuery('SELECT * FROM rooms');
-$stmt->execute();
-$rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Fetch room details for editing
+$roomId = $_GET['id'] ?? null;
+if (!$roomId) {
+    header('Location: ../rooms/index.php'); // Redirect if no ID is provided
+    exit();
+}
 
+$stmt = $admin->runQuery('SELECT * FROM rooms WHERE id = :id');
+$stmt->execute([':id' => $roomId]);
+$room = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Handle form submission for updating room
+if (isset($_POST['btn-edit-room'])) {
+    $name = $_POST['name'];
+    $description = $_POST['description'];
+    $imageUrl = $_POST['imageUrl'];
+    $price = $_POST['price'];
+
+    $stmt = $admin->runQuery('UPDATE rooms SET name = :name, description = :description, imageUrl = :imageUrl, price = :price WHERE id = :id');
+    $stmt->execute([
+        ':name' => $name,
+        ':description' => $description,
+        ':imageUrl' => $imageUrl,
+        ':price' => $price,
+        ':id' => $roomId
+    ]);
+
+    header('Location: ../rooms/index.php');
+    exit();
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,11 +49,8 @@ $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="../src/css/dashboard.css">
-    <link rel="stylesheet" href="../src/css/main.css">
+    <title>Edit Room</title>
     <link rel="stylesheet" href="../output.css">
-    <link rel="shortcut icon" href="../src/images/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
@@ -53,47 +78,47 @@ $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php if ($user_data['isAdmin'] == true): ?>
                     <p onclick="addRoom()" class="cursor-pointer text-nowrap text-center">Add Room</p>
                 <?php endif; ?>
-
                 <?php if ($user_data['isAdmin'] == true): ?>
+                    <p onclick="manageUsers()" class="cursor-pointer text-nowrap text-center">Users</p>
+                <?php endif; ?>
+                <p onclick="setting()" class="cursor-pointer text-center text-nowrap">Setting</p>
                 <p onclick="signOut()" class="cursor-pointer mt-2 text-red-500 text-center text-nowrap">Sign out</p>
-
             </div>
         </div>
     </header>
 
-    <section class="container">
-        <div>
-            <h1 class="text-3xl font-regular font-bold">Rooms</h1>
-            <p>Note: We offer per night only</p>
-            <div class="flex gap-2 mt-4">
-                <a href="../hotel-stats"
-                    style="padding: 0.5rem 1rem; background-color: #3867ca; border-radius: 0.25rem; transition: all 0.2s ease-in-out; animation: animate-pulse 1s ease-in-out infinite;"
-                    class="">Hotel
-                    Stats</a>
-            </div>
-        </div>
+    <!-- Content -->
+    <section class="container w-full h-screen">
+        <h1 class="w-full text-3xl font-bold">Edit Room</h1>
 
-        <!-- Room Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 mt-7 justify-center">
-            <?php foreach ($rooms as $room): ?>
-                <a href="../room/index.php<?php echo '?id=' . $room['id']; ?>">
-                    <div
-                        class="max-w-sm rounded overflow-hidden shadow-lg bg-card text-cardText hover:rotate-3  mx-auto md:mx-0">
-                        <img class="w-full" src="<?= $room['imageUrl'] ?>" alt="Sunset in the mountains">
-                        <div class="px-6 py-4">
-                            <div class="font-extrabold font-regular text-2xl mb-2"><?= $room['name'] ?></div>
-                            <p class="text-gray-700 text-base line-clamp-3">
-                                <?= $room['description'] ?>
-                            </p>
-                            <div class=" pt-4 pb-2">
-                                <span
-                                    class="bg-green-600 text-white font-regular font-medium text-base rounded-full px-5 py-1"><?= $room['price'] ?></span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            <?php endforeach; ?>
-
+        <div class="mt-5 max-w-[500px]">
+            <form class="space-y-4" action="" method="POST">
+                <div class="flex flex-col gap-2">
+                    <label class="font-medium" for="name">Room Name</label>
+                    <input class="text-black border border-gray-300 rounded-md p-2" type="text" name="name" id="name"
+                        value="<?php echo htmlspecialchars($room['name']); ?>" placeholder="Enter Room Name" required>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="font-medium" for="description">Description</label>
+                    <textarea class="text-black border border-gray-300 rounded-md px-2 py-1" name="description"
+                        id="description" placeholder="Enter Room Description"
+                        required><?php echo htmlspecialchars($room['description']); ?></textarea>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="font-medium" for="imageUrl">Image Url</label>
+                    <input class="text-black border border-gray-300 rounded-md p-2" type="text" name="imageUrl"
+                        id="imageUrl" value="<?php echo htmlspecialchars($room['imageUrl']); ?>"
+                        placeholder="Enter Room Image Url" required>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="font-medium" for="price">Your Pricing</label>
+                    <input class="text-black border border-gray-300 rounded-md p-2" type="number" name="price"
+                        id="price" value="<?php echo htmlspecialchars($room['price']); ?>"
+                        placeholder="Enter Room Price" required>
+                </div>
+                <button name="btn-edit-room" class="bg-green-600 text-white px-5 py-2 rounded-md"
+                    type="submit">Update</button>
+            </form>
         </div>
     </section>
     <script>
@@ -123,10 +148,6 @@ $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         function manageUsers() {
             window.location.href = "../users";
-        }
-
-        function editUser() {
-        window.location.href = "../edit-user";
         }
 
         function setting() {

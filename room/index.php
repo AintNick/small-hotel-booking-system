@@ -37,7 +37,8 @@ $room = $stmt->fetch(PDO::FETCH_ASSOC);
             <a class="px-5 py-1 hover:bg-[#ef4a59] hover:animate-pulse transition rounded" href="../rooms">Rooms</a>
             <a class="px-5 py-1 hover:bg-[#ef4a59] hover:animate-pulse transition rounded"
                 href="../reservation">Reservation</a>
-            <a class="px-5 py-1 hover:bg-[#ef4a59] hover:animate-pulse transition rounded" href="../about">About</a>
+            <a class="px-5 py-1 hover:bg-[#ef4a59] hover:animate-pulse transition rounded"
+                href="../about-page">About</a>
         </nav>
         <div class="relative size-fit">
             <!-- Trigger Image -->
@@ -51,10 +52,9 @@ $room = $stmt->fetch(PDO::FETCH_ASSOC);
                 <?php if ($user_data['isAdmin'] == true): ?>
                     <p onclick="addRoom()" class="cursor-pointer text-nowrap text-center">Add Room</p>
                 <?php endif; ?>
+
                 <?php if ($user_data['isAdmin'] == true): ?>
-                    <p onclick="manageUsers()" class="cursor-pointer text-nowrap text-center">Users</p>
-                <?php endif; ?>
-                <p onclick="setting()" class="cursor-pointer text-center text-nowrap">Setting</p>
+                    <p onclick="setting()" class="cursor-pointer text-center text-nowrap">Setting</p><?php endif; ?>
                 <p onclick="signOut()" class="cursor-pointer mt-2 text-red-500 text-center text-nowrap">Sign out</p>
 
             </div>
@@ -84,9 +84,13 @@ $room = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 <div class="mt-auto">
                     <p>NOTE: time in and time out is 6am to 6pm</p>
-                    <button onclick="bookNow()"
-                        class="mt-4 px-6 py-2 bg-green-600 text-white rounded hover:animate-pulse">Book
-                        Now!!</button>
+                    <span class=" flex gap-4"><button onclick="bookNow()"
+                            class="mt-4 px-6 py-2 bg-green-600 text-white rounded hover:animate-pulse">Book
+                            Now!!</button><?php if ($user_data['isAdmin'] == true): ?>
+                            <a href="../edit-room?id=<?php echo $id; ?>"
+                                class="mt-4 px-6 py-2 bg-yellow-600 text-white rounded hover:animate-pulse">Edit
+                                Room</a>
+                        <?php endif; ?></span>
                 </div>
             </div>
         </div>

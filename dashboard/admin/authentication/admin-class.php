@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../../../database/dbconnection.php';
 include_once __DIR__ . '/../../../config/settings-configuration.php';
-require_once __DIR__ . '/../../..//vendor/autoload.php';
+require_once __DIR__ . '/../../../src/vendor/autoload.php';
 require_once __DIR__ . '/../../../lib/emailTemplate.php';
 ini_set('memory_limit', '2024M');
 
@@ -157,7 +157,7 @@ class ADMIN
                 $this->logs($activity, $user_id);
 
                 $_SESSION['adminSession'] = $user_id;
-                echo "<script>alert('Welcome To IT ELEC 2!'); window.location.href = '../../../rooms/'</script>";
+                echo "<script> window.location.href = '../../../rooms/'</script>";
                 exit;
             } else {
                 echo "<script>alert('Invalid Credentials'); window.location.href = '../../..'</script>";

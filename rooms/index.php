@@ -67,7 +67,9 @@ $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <h1 class="text-3xl font-regular font-bold">Rooms</h1>
             <p>Note: We offer per night only</p>
             <div class="flex gap-2 mt-4">
-                <a href="../hotel-stats" class="px-5 py-1 bg-[#3867ca] hover:animate-pulse transition rounded">Hotel
+                <a href="../hotel-stats"
+                    style="padding: 0.5rem 1rem; background-color: #3867ca; border-radius: 0.25rem; transition: all 0.2s ease-in-out; animation: animate-pulse 1s ease-in-out infinite;"
+                    class="">Hotel
                     Stats</a>
             </div>
         </div>

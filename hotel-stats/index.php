@@ -71,12 +71,46 @@ $hotelStats = $stmt->fetch(PDO::FETCH_ASSOC);
                 <?php if ($user_data['isAdmin'] == true): ?>
                     <p onclick="addRoom()" class="cursor-pointer text-nowrap text-center">Add Room</p>
                 <?php endif; ?>
+
+
+
                 <?php if ($user_data['isAdmin'] == true): ?>
                     <p onclick="setting()" class="cursor-pointer text-center text-nowrap">Setting</p><?php endif; ?>
                 <p onclick="signOut()" class="cursor-pointer mt-2 text-red-500 text-center text-nowrap">Sign out</p>
             </div>
         </div>
     </header>
+
+    <style>
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #291f1e;
+            padding: 20px;
+            border: 2px solid #000;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+
+        .popup h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .popup button {
+            background-color: #ef4a59;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .popup button:hover {
+            background-color: #d13d46;
+        }
+    </style>
 
     <!-- Main Content -->
     <section class="container mx-auto py-10 px-4">
@@ -94,6 +128,10 @@ $hotelStats = $stmt->fetch(PDO::FETCH_ASSOC);
                     <p class="text-sm text-gray-700 px-4">Price: <?php echo number_format($sale['price'], 2); ?></p>
                     <p class="text-sm text-gray-700 px-4 mb-3">Date: <?php echo date('F j, Y', strtotime($sale['date'])); ?>
                     </p>
+                    <button onclick="fetchUserName(<?php echo $sale['userId']; ?>)"
+                        style="font-size: 0.875rem; color: black; margin-left: 1rem; margin-bottom: 0.75rem; background-color: #f7dc6f; width: fit-content; padding-left: 2rem; padding-right: 2rem; padding-top: 0.5rem; padding-bottom: 0.5rem; border-radius: 5px;">
+                        View User: <?php echo $sale['userId']; ?>
+                    </button>
                 </div>
             <?php endforeach; ?>
         </div>
@@ -120,6 +158,38 @@ $hotelStats = $stmt->fetch(PDO::FETCH_ASSOC);
 
     <!-- JavaScript -->
     <script>
+        function fetchUserName(userId) {
+            // Send an AJAX request to fetch the user name based on userId
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `./fetch_user_name.php?userId=${userId}`, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Parse the response and display it in the popup
+                    const userName = xhr.responseText;
+                    showUserPopup(userName);
+                }
+            };
+            xhr.send();
+        }
+
+        function showUserPopup(userName) {
+            // Create the popup content
+            const popupContent = `
+            <div class="popup">
+                <h2>User Name: ${userName}</h2>
+                <button onclick="closePopup()">Close</button>
+            </div>
+        `;
+
+            // Add the popup to the body
+            document.body.insertAdjacentHTML('beforeend', popupContent);
+        }
+
+        function closePopup() {
+            // Close the popup
+            const popup = document.querySelector('.popup');
+            popup.remove();
+        }
         // Header Popover Logic
         function toggleUserPopover() {
             const popover = document.getElementById('popoverContent');

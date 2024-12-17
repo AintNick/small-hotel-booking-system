@@ -38,7 +38,8 @@ $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <a class="px-5 py-1 hover:bg-[#ef4a59] hover:animate-pulse transition rounded" href="../rooms">Rooms</a>
             <a class="px-5 py-1 hover:bg-[#ef4a59] hover:animate-pulse transition rounded"
                 href="../reservation">Reservation</a>
-            <a class="px-5 py-1 hover:bg-[#ef4a59] hover:animate-pulse transition rounded" href="../about">About</a>
+            <a class="px-5 py-1 hover:bg-[#ef4a59] hover:animate-pulse transition rounded"
+                href="../about-page">About</a>
         </nav>
         <div class="relative size-fit">
             <!-- Trigger Image -->
@@ -65,6 +66,10 @@ $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div>
             <h1 class="text-3xl font-regular font-bold">Rooms</h1>
             <p>Note: We offer per night only</p>
+            <div class="flex gap-2 mt-4">
+                <a href="../hotel-stats" class="px-5 py-1 bg-[#3867ca] hover:animate-pulse transition rounded">Hotel
+                    Stats</a>
+            </div>
         </div>
 
         <!-- Room Cards -->

@@ -35,7 +35,8 @@ $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
             <a class="px-5 py-1 hover:bg-[#ef4a59] hover:animate-pulse transition rounded" href="../rooms">Rooms</a>
             <a class="px-5 py-1 hover:bg-[#ef4a59] hover:animate-pulse transition rounded"
                 href="../reservation">Reservation</a>
-            <a class="px-5 py-1 hover:bg-[#ef4a59] hover:animate-pulse transition rounded" href="../about">About</a>
+            <a class="px-5 py-1 hover:bg-[#ef4a59] hover:animate-pulse transition rounded"
+                href="../about-page">About</a>
         </nav>
         <div class="relative size-fit">
             <!-- Trigger Image -->

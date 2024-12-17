@@ -1,0 +1,82 @@
+/* General Styling */
+.contact-section {
+  margin-top: 4rem;
+  text-align: center;
+}
+
+.contact-title {
+  font-size: 1.875rem; /* Equivalent to text-3xl */
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: #ffffff;
+}
+
+/* Contact Container */
+.contact-container {
+  display: flex;
+  flex-direction: column; /* Default to vertical layout */
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  color: #d1d5db; /* Equivalent to text-gray-300 */
+}
+
+/* Responsive Layout for Larger Screens */
+@media (min-width: 768px) {
+  .contact-container {
+    flex-direction: row; /* Horizontal layout for md screens */
+  }
+}
+
+/* Individual Contact Items */
+.contact-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+/* Icons */
+.icon {
+  width: 2rem; /* Equivalent to w-8 */
+  height: 2rem; /* Equivalent to h-8 */
+  color: #ef4a59; /* Custom red color */
+  margin-bottom: 0.5rem;
+}
+
+/* Vision and Mission Section */
+.vision-mission-section {
+  margin-top: 4rem;
+  text-align: center;
+  color: #ffffff;
+  padding-inline: 3rem;
+}
+
+.section-title {
+  font-size: 1.875rem; /* Equivalent to text-3xl */
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.section-description {
+  font-size: 1.125rem; /* Equivalent to text-lg */
+  line-height: 1.75;
+  margin-bottom: 2rem;
+  color: #d1d5db; /* Equivalent to text-gray-300 */
+}
+
+/* Responsive Layout for Vision and Mission Section */
+@media (min-width: 768px) {
+  .vision-mission-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 4rem;
+    text-align: left;
+  }
+
+  .vision,
+  .mission {
+    max-width: 45%;
+  }
+}

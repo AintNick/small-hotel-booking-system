@@ -18,6 +18,7 @@ $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us</title>
     <link rel="stylesheet" href="../output.css">
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
@@ -30,7 +31,8 @@ $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
             <a class="px-5 py-1 hover:bg-[#ef4a59] hover:animate-pulse transition rounded" href="../rooms">Rooms</a>
             <a class="px-5 py-1 hover:bg-[#ef4a59] hover:animate-pulse transition rounded"
                 href="../reservation">Reservation</a>
-            <a class="px-5 py-1 hover:bg-[#ef4a59] hover:animate-pulse transition rounded" href="../about-page">About</a>
+            <a class="px-5 py-1 hover:bg-[#ef4a59] hover:animate-pulse transition rounded"
+                href="../about-page">About</a>
         </nav>
         <div class="relative size-fit">
             <div onclick="toggleUserPopover()" class="bg-white size-10 cursor-pointer rounded-full">
@@ -69,9 +71,9 @@ $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
                 <img src="../src/images/businessman.jpg" alt="CEO of ComfyCorners"
                     style="max-width: 300px; width: 100%; height: auto;" class="rounded-lg shadow-md">
                 <div class="text-center md:text-left">
-                    <h3 class="text-2xl font-bold mb-2">John Doe</h3>
+                    <h3 class="text-2xl font-bold mb-2">Rennel Vitug</h3>
                     <p class="text-lg leading-relaxed text-white-700">
-                        John Doe, the visionary CEO of ComfyCorners, brings years of experience in hospitality and a
+                        Rennel Vitug, the visionary CEO of ComfyCorners, brings years of experience in hospitality and a
                         passion for excellence.
                         Under his leadership, ComfyCorners has grown into a trusted name in the industry, recognized for
                         unparalleled comfort
@@ -82,6 +84,62 @@ $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
             </div>
         </div>
     </section>
+
+    <!-- Contact Information Section -->
+    <div class="contact-section">
+        <h2 class="contact-title">Contact Information</h2>
+        <div class="contact-container">
+            <div class="contact-item">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    class="icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 10l1.5 1.5L12 4m9 6v10a2 2 0 01-2 2H5a2 2 0 01-2-2V10a2 2 0 012-2h3.5m7-4l6 6M9 21h6" />
+                </svg>
+                <p>123 Main Street, Makati City, Philippines</p>
+            </div>
+            <div class="contact-item">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    class="icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M16 12c0 1.658-1.342 3-3 3s-3-1.342-3-3 1.342-3 3-3 3 1.342 3 3z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M5 12c0 4.418 3.582 8 8 8s8-3.582 8-8-3.582-8-8-8-8 3.582-8 8z" />
+                </svg>
+                <p>Email: aldriangueco01@comfycorners.com</p>
+            </div>
+            <div class="contact-item">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    class="icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <p>Phone: 09757051231</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vision and Mission Section -->
+    <div class="vision-mission-section">
+        <div class="vision">
+            <h2 class="section-title">Our Vision</h2>
+            <p class="section-description">
+                To be a leading provider of luxurious and affordable accommodations worldwide, offering exceptional
+                comfort
+                and service that ensures every guest experiences the best in hospitality.
+            </p>
+        </div>
+        <div class="mission">
+            <h2 class="section-title">Our Mission</h2>
+            <p class="section-description">
+                Our mission is to deliver high-quality, affordable accommodations that cater to the diverse needs of our
+                guests.
+                We strive to create a welcoming and comfortable environment where guests feel valued and at home during
+                their stay.
+            </p>
+        </div>
+    </div>
+
+
 
     <footer class="mt-10 bg-white-800 text-white text-center py-6">
         <p class="text-sm">© <?= date('Y') ?> ComfyCorners. All Rights Reserved.</p>

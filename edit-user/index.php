@@ -49,10 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn-update-user'])) {
             <h1 class="text-3xl font-bold font-accent">ComfyCorners</h1>
         </span>
         <nav class="flex items-center font-regular gap-16 font-medium text-lg">
-            <a class="px-5 py-1 hover:bg-[#ef4a59] hover:animate-pulse transition rounded" href="#">Rooms</a>
+            <a class="px-5 py-1 hover:bg-[#ef4a59] hover:animate-pulse transition rounded" href="../rooms">Rooms</a>
             <a class="px-5 py-1 hover:bg-[#ef4a59] hover:animate-pulse transition rounded"
                 href="../reservation">Reservation</a>
-            <a class="px-5 py-1 hover:bg-[#ef4a59] hover:animate-pulse transition rounded" href="#">About</a>
+            <a class="px-5 py-1 hover:bg-[#ef4a59] hover:animate-pulse transition rounded" href="../about-page">About</a>
         </nav>
         <div class="relative size-fit">
             <!-- Trigger Image -->

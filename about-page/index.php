@@ -42,6 +42,7 @@ $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
                 class="absolute hidden bg-background border border-white-300 rounded-lg shadow-lg px-4 py-2 space-y-2">
                 <p onclick="manageUsers()" class="cursor-pointer text-nowrap text-center">Users</p>
                 <?php if ($user_data['isAdmin'] == true): ?>
+                    <p onclick="profile()" class="cursor-pointer text-center text-nowrap">Profile</p>
                     <p onclick="setting()" class="cursor-pointer text-center text-nowrap">Setting</p><?php endif; ?>
                 <p onclick="signOut()" class="cursor-pointer mt-2 text-red-500 text-center text-nowrap">Sign out</p>
             </div>
@@ -149,6 +150,10 @@ $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
         function toggleUserPopover() {
             const popover = document.getElementById('popoverContent');
             popover.classList.toggle('hidden');
+        }
+
+        function profile() {
+            window.location.href = "../edit-user/";
         }
 
         function manageUsers() {

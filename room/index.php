@@ -54,6 +54,7 @@ $room = $stmt->fetch(PDO::FETCH_ASSOC);
                 <?php endif; ?>
 
                 <?php if ($user_data['isAdmin'] == true): ?>
+                    <p onclick="profile()" class="cursor-pointer text-center text-nowrap">Profile</p>
                     <p onclick="setting()" class="cursor-pointer text-center text-nowrap">Setting</p><?php endif; ?>
                 <p onclick="signOut()" class="cursor-pointer mt-2 text-red-500 text-center text-nowrap">Sign out</p>
 
@@ -155,6 +156,10 @@ $room = $stmt->fetch(PDO::FETCH_ASSOC);
 
         function addRoom() {
             window.location.href = "../create-room";
+        }
+
+        function profile() {
+            window.location.href = "../edit-user/";
         }
 
         function manageUsers() {

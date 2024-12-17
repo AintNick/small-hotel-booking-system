@@ -4,31 +4,31 @@ require_once '../dashboard/admin/authentication/admin-class.php';
 $admin = new ADMIN();
 $admin->isUserLoggedIn("../");
 
-    $stmt = $admin->runQuery("SELECT username, age, address, contact_number, isAdmin FROM user WHERE id = :id");
-    $stmt->execute(array(":id" => $_SESSION['adminSession']));
-    $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
+$stmt = $admin->runQuery("SELECT username, age, address, contact_number, isAdmin FROM user WHERE id = :id");
+$stmt->execute(array(":id" => $_SESSION['adminSession']));
+$user_data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn-update-user'])) {
-        $updated_username = $_POST['username'];
-        $updated_age = $_POST['age'];
-        $updated_address = $_POST['address'];
-        $updated_contact_number = $_POST['contact_number'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn-update-user'])) {
+    $updated_username = $_POST['username'];
+    $updated_age = $_POST['age'];
+    $updated_address = $_POST['address'];
+    $updated_contact_number = $_POST['contact_number'];
 
-        $stmt = $admin->runQuery("UPDATE user SET username = :username, age = :age, address = :address, contact_number = :contact_number WHERE id = :id");
-        $stmt->execute(array(
-            ":username" => $updated_username,
-            ":age" => $updated_age,
-            ":address" => $updated_address,
-            ":contact_number" => $updated_contact_number,
-            ":id" => $_SESSION['adminSession']
-        ));
+    $stmt = $admin->runQuery("UPDATE user SET username = :username, age = :age, address = :address, contact_number = :contact_number WHERE id = :id");
+    $stmt->execute(array(
+        ":username" => $updated_username,
+        ":age" => $updated_age,
+        ":address" => $updated_address,
+        ":contact_number" => $updated_contact_number,
+        ":id" => $_SESSION['adminSession']
+    ));
 
-        $user_data['username'] = $updated_username;
-        $user_data['age'] = $updated_age;
-        $user_data['address'] = $updated_address;
-        $user_data['contact_number'] = $updated_contact_number;
+    $user_data['username'] = $updated_username;
+    $user_data['age'] = $updated_age;
+    $user_data['address'] = $updated_address;
+    $user_data['contact_number'] = $updated_contact_number;
 
-        $success = "User information updated successfully.";
+    $success = "User information updated successfully.";
 }
 ?>
 
@@ -60,16 +60,14 @@ $admin->isUserLoggedIn("../");
                 <img src="../src/images/user-placeholder.svg" alt="user">
             </div>
 
-             <!-- Pop-over Content -->
-             <div id="popoverContent"
+            <!-- Pop-over Content -->
+            <div id="popoverContent"
                 class="absolute left-1/2 transform -translate-x-1/2 mt-2 hidden bg-background border border-gray-300 rounded-lg shadow-lg z-10 px-4 py-2 h-fit space-y-2">
                 <?php if ($user_data['isAdmin'] == true): ?>
                     <p onclick="addRoom()" class="cursor-pointer text-nowrap text-center">Add Room</p>
                 <?php endif; ?>
-                <?php if ($user_data['isAdmin'] == true): ?>
-                    <p onclick="manageUsers()" class="cursor-pointer text-nowrap text-center">Users</p>
-                <?php endif; ?>
                 <p onclick="editUser()" class="cursor-pointer text-center text-nowrap">User Profile</p>
+                <p onclick="profile()" class="cursor-pointer text-center text-nowrap">Profile</p>
                 <p onclick="setting()" class="cursor-pointer text-center text-nowrap">Setting</p>
                 <p onclick="signOut()" class="cursor-pointer mt-2 text-red-500 text-center text-nowrap">Sign out</p>
 
@@ -93,44 +91,43 @@ $admin->isUserLoggedIn("../");
         <form action="" method="POST" class="space-y-4">
             <div class="flex flex-col gap-2">
                 <label for="username" class="font-medium">Username</label>
-                <input type="text" name="username" id="username" class="border p-2" required 
-                       value="<?= htmlspecialchars($user_data['username'] ?? '') ?>">
+                <input type="text" name="username" id="username" class="border p-2" required
+                    value="<?= htmlspecialchars($user_data['username'] ?? '') ?>">
             </div>
             <div class="flex flex-col gap-2">
                 <label for="age" class="font-medium">Age</label>
-                <input type="number" name="age" id="age" class="border p-2" required 
-                       value="<?= htmlspecialchars($user_data['age'] ?? '') ?>">
+                <input type="number" name="age" id="age" class="border p-2" required
+                    value="<?= htmlspecialchars($user_data['age'] ?? '') ?>">
             </div>
             <div class="flex flex-col gap-2">
                 <label for="address" class="font-medium">Address</label>
-                <input type="text" name="address" id="address" class="border p-2" required 
-                       value="<?= htmlspecialchars($user_data['address'] ?? '') ?>">
+                <input type="text" name="address" id="address" class="border p-2" required
+                    value="<?= htmlspecialchars($user_data['address'] ?? '') ?>">
             </div>
             <div class="flex flex-col gap-2">
                 <label for="contact_number" class="font-medium">Contact Number</label>
-                <input type="text" name="contact_number" id="contact_number" class="border p-2" required 
-                       value="<?= htmlspecialchars($user_data['contact_number'] ?? '') ?>">
+                <input type="text" name="contact_number" id="contact_number" class="border p-2" required
+                    value="<?= htmlspecialchars($user_data['contact_number'] ?? '') ?>">
             </div>
             <div class="flex flex-col gap-2">
-            <button type="submit" name="btn-update-user" 
-            class="bg-blue-600 text-white py-2 rounded"
-            style="width: 170px; background-color: #4CAF50;"> Update Information </button>
+                <button type="submit" name="btn-update-user" class="bg-blue-600 text-white py-2 rounded"
+                    style="width: 170px; background-color: #4CAF50;"> Update Information </button>
             </div>
         </form>
     </section>
 
- <!-- Content -->
+    <!-- Content -->
 
- <script>
+    <script>
         function toggleUserPopover() {
             const popover = document.getElementById('popoverContent');
 
             if (popover.classList.contains('hidden')) {
-              
+
                 popover.classList.add('animate-fade');
                 popover.classList.remove('hidden');
             } else {
-                
+
                 popover.classList.add('hidden');
                 popover.classList.remove('animate-fade');
             }
@@ -140,12 +137,16 @@ $admin->isUserLoggedIn("../");
             window.location.href = "../create-room";
         }
 
+        function profile() {
+            window.location.href = "../edit-user/";
+        }
+
         function manageUsers() {
             window.location.href = "../users";
         }
 
         function editUser() {
-        window.location.href = "../edit-user";
+            window.location.href = "../edit-user";
         }
 
         function setting() {

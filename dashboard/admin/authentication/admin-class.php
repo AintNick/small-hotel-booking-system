@@ -95,7 +95,7 @@ class ADMIN
         // unset($_SESSION['csrf_token']);
 
         $hash_password = md5($password);
-        echo `<script>alert('admin Added Successfully'); window.location.href = '../../../';</script>`;
+        echo "<script>alert('admin Added Successfully'); window.location.href = '../../../';</script>";
 
         $stmt = $this->runQuery('INSERT INTO user (username, email, password) VALUES (:username, :email, :password)');
         $exec = $stmt->execute(array(

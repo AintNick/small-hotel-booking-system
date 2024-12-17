@@ -5,39 +5,48 @@ require_once __DIR__ . '/../dashboard/admin/authentication/admin-class.php';
 $admin = new ADMIN();
 $admin->isUserLoggedIn("../");
 
-$stmt = $admin->runQuery("SELECT * FROM user WHERE id = :id");
-$stmt->execute(array(":id" => $_SESSION['adminSession']));
-$user_data = $stmt->fetch(PDO::FETCH_ASSOC);
+// Pagination settings
+$limit = 10; // Number of records per page
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int) $_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
 
-if (isset($_POST['btn-create-room'])) {
-    $admin = new ADMIN();
-    $name = $_POST['name'];
-    $description = $_POST['description'];
-    $imageUrl = $_POST['imageUrl'];
-    $price = $_POST['price'];
-    $reserved = false;
+// Fetch sales with room details
+$stmt = $admin->runQuery("
+    SELECT sales.*, rooms.name AS room_name, rooms.imageUrl AS room_image
+    FROM sales
+    JOIN rooms ON sales.roomId = rooms.id
+    ORDER BY sales.date DESC
+    LIMIT :limit OFFSET :offset
+");
+$stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
+$sales = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $stmt = $admin->runQuery('INSERT INTO rooms (name, description, imageUrl, price, reserved) VALUES (:name, :description, :imageUrl, :price, :reserved)');
+// Fetch total count for pagination
+$countStmt = $admin->runQuery("SELECT COUNT(*) AS total FROM sales");
+$countStmt->execute();
+$total = $countStmt->fetch(PDO::FETCH_ASSOC)['total'];
+$totalPages = ceil($total / $limit);
 
-    $stmt->execute([':name' => $name, ':description' => $description, ':imageUrl' => $imageUrl, ':price' => $price, ':reserved' => $reserved]);
-
-    header('Location: ../rooms/index.php');
-    exit();
-}
+// Fetch total sales
+$stmt = $admin->runQuery("SELECT totalSales FROM hotel_stats WHERE id = 1");
+$stmt->execute();
+$hotelStats = $stmt->fetch(PDO::FETCH_ASSOC);
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Room</title>
+    <title>Sales Log</title>
     <link rel="stylesheet" href="../output.css">
 </head>
 
-<body>
+<body class="bg-[#291f1e] text-white">
+    <!-- Header Section -->
     <header class="px-10 py-2 bg-header flex justify-between items-center">
         <span class="flex gap-2 items-center">
             <img class="object-contain" src="../src/images/logo.png" alt="logo">
@@ -67,54 +76,60 @@ if (isset($_POST['btn-create-room'])) {
                 <?php endif; ?>
                 <p onclick="setting()" class="cursor-pointer text-center text-nowrap">Setting</p>
                 <p onclick="signOut()" class="cursor-pointer mt-2 text-red-500 text-center text-nowrap">Sign out</p>
-
             </div>
         </div>
     </header>
 
-    <!-- Content -->
+    <!-- Main Content -->
+    <section class="container mx-auto py-10 px-4">
+        <h2 class="text-2xl font-bold mb-5">Total Sales : <?php echo number_format($hotelStats['totalSales'], 2); ?>
+        </h2>
+        <h2 class="text-2xl font-bold mb-5">Previous Sales</h2>
 
-    <section class="container  w-full h-screen">
-        <h1 class="w-full text-3xl font-bold">Create Room</h1>
+        <!-- Sales Cards -->
+        <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <?php foreach ($sales as $sale): ?>
+                <div class="flex flex-col bg-white text-black rounded-lg shadow-md">
+                    <img class="w-full h-40 object-cover rounded-md mb-4 max-h-40 min-h-4"
+                        src="<?php echo htmlspecialchars($sale['room_image']); ?>" alt="Room Image">
+                    <h3 class="text-lg font-bold mb-2 px-4"><?php echo htmlspecialchars($sale['room_name']); ?></h3>
+                    <p class="text-sm text-gray-700 px-4">Price: <?php echo number_format($sale['price'], 2); ?></p>
+                    <p class="text-sm text-gray-700 px-4 mb-3">Date: <?php echo date('F j, Y', strtotime($sale['date'])); ?>
+                    </p>
+                </div>
+            <?php endforeach; ?>
+        </div>
 
-        <div class=" mt-5 max-w-[500px]">
-            <form class=" space-y-4" action="" method="POST">
-                <div class="flex flex-col gap-2">
-                    <label class="font-medium" for="name">Room Name</label>
-                    <input class=" text-black border border-gray-300 rounded-md p-2" type="text" name="name" id="name"
-                        placeholder="Enter Room Name" required>
-                </div>
-                <div class="flex flex-col gap-2">
-                    <label class="font-medium" for="description">Description</label>
-                    <textarea class=" text-black border border-gray-300 rounded-md px-2 py-1" cols="30" type="text"
-                        name="description" id="description" placeholder="Enter Room Description" required></textarea>
-                </div>
-                <div class="flex flex-col gap-2">
-                    <label class="font-medium" for="imageUrl">Image Url</label>
-                    <input class=" text-black border border-gray-300 rounded-md p-2" type="text" name="imageUrl"
-                        id="imageUrl" placeholder="Enter Room Image Url" required>
-                </div>
-                <div class="flex flex-col gap-2">
-                    <label class="font-medium" for="price">Your Pricing</label>
-                    <input class=" text-black border border-gray-300 rounded-md p-2" type="number" name="price"
-                        id="name" placeholder="Enter Room Price" required>
-                </div>
-                <button name="btn-create-room" class="bg-green-600 text-white px-5 py-2 rounded-md"
-                    type="submit">Create</button>
-            </form>
+        <!-- Pagination -->
+        <div class="flex justify-center mt-6 space-x-2 text-gray-900">
+            <?php if ($page > 1): ?>
+                <a class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                    href="?page=<?php echo $page - 1; ?>">Previous</a>
+            <?php endif; ?>
+
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <a class="px-4 py-2 <?php echo $i === $page ? 'bg-blue-500 text-white' : 'bg-gray-200 hover:bg-gray-300'; ?> rounded"
+                    href="?page=<?php echo $i; ?>">
+                    <?php echo $i; ?>
+                </a>
+            <?php endfor; ?>
+
+            <?php if ($page < $totalPages): ?>
+                <a class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300" href="?page=<?php echo $page + 1; ?>">Next</a>
+            <?php endif; ?>
         </div>
     </section>
+
+    <!-- JavaScript -->
     <script>
-        // Header stuff
+        // Header Popover Logic
         function toggleUserPopover() {
             const popover = document.getElementById('popoverContent');
 
             if (popover.classList.contains('hidden')) {
-                // Add animation class and show
                 popover.classList.add('animate-fade');
                 popover.classList.remove('hidden');
             } else {
-                // Hide popover
                 popover.classList.add('hidden');
                 popover.classList.remove('animate-fade');
             }
@@ -141,3 +156,6 @@ if (isset($_POST['btn-create-room'])) {
 </body>
 
 </html>
+<!-- 
+git fetch origin
+git checkout 16-update-isadmin -->

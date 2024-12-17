@@ -39,7 +39,8 @@ $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
             <div id="popoverContent"
                 class="absolute hidden bg-background border border-white-300 rounded-lg shadow-lg px-4 py-2 space-y-2">
                 <p onclick="manageUsers()" class="cursor-pointer text-nowrap text-center">Users</p>
-                <p onclick="setting()" class="cursor-pointer text-center text-nowrap">Setting</p>
+                <?php if ($user_data['isAdmin'] == true): ?>
+                    <p onclick="setting()" class="cursor-pointer text-center text-nowrap">Setting</p><?php endif; ?>
                 <p onclick="signOut()" class="cursor-pointer mt-2 text-red-500 text-center text-nowrap">Sign out</p>
             </div>
         </div>

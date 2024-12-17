@@ -53,10 +53,9 @@ $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php if ($user_data['isAdmin'] == true): ?>
                     <p onclick="addRoom()" class="cursor-pointer text-nowrap text-center">Add Room</p>
                 <?php endif; ?>
+
                 <?php if ($user_data['isAdmin'] == true): ?>
-                    <p onclick="manageUsers()" class="cursor-pointer text-nowrap text-center">Users</p>
-                <?php endif; ?>
-                <p onclick="setting()" class="cursor-pointer text-center text-nowrap">Setting</p>
+                    <p onclick="setting()" class="cursor-pointer text-center text-nowrap">Setting</p><?php endif; ?>
                 <p onclick="signOut()" class="cursor-pointer mt-2 text-red-500 text-center text-nowrap">Sign out</p>
 
             </div>

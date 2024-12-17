@@ -84,12 +84,11 @@ if (isset($_POST['btn-submit'])) {
             <div id="popoverContent"
                 class="absolute left-1/2 transform -translate-x-1/2 mt-2 hidden bg-background border border-gray-300 rounded-lg shadow-lg z-10 px-4 py-2 h-fit space-y-2">
                 <?php if ($user_data['isAdmin'] == true): ?>
-                    <p onclick="addRoom()" class="cursor-pointer text-nowrap text-center">Add Room</p>
+                        <p onclick="addRoom()" class="cursor-pointer text-nowrap text-center">Add Room</p>
                 <?php endif; ?>
+ 
                 <?php if ($user_data['isAdmin'] == true): ?>
-                    <p onclick="manageUsers()" class="cursor-pointer text-nowrap text-center">Users</p>
-                <?php endif; ?>
-                <p onclick="setting()" class="cursor-pointer text-center text-nowrap">Setting</p>
+                        <p onclick="setting()" class="cursor-pointer text-center text-nowrap">Setting</p><?php endif; ?>
                 <p onclick="signOut()" class="cursor-pointer mt-2 text-red-500 text-center text-nowrap">Sign out</p>
 
             </div>

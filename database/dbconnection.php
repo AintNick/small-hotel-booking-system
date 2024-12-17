@@ -23,9 +23,9 @@ class Database
             $this->password = "";
         } else {
             $this->host = "localhost";
-            $this->db_name = "itelec2";
-            $this->username = "root";
-            $this->password = "";
+            $this->db_name = "u772084991_hotel_database";
+            $this->username = "u772084991_root";
+            $this->password = "itelec2Group5!";
         }
     }
 
